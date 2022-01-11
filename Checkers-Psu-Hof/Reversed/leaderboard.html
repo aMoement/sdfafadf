@@ -1,0 +1,31 @@
+<html>
+<head>
+	<style>table, th, td {
+  border: 1px solid black;
+}</style>
+</head>
+<body>
+<H1>Leaderboard</H1>
+
+<?php
+require_once('../js/mongodb.php');
+	$db = new MongoData;
+	echo '<table>';
+	echo '<tr>';
+	echo '<th>Name</th>';
+	echo '<th>Spieler</th>';
+	echo '<th>Bot</th>';
+	echo '</tr>';
+	foreach ($db-> get() as $item){
+	echo '<tr>';
+	echo '<td>'.$item->name.'</td>';
+	echo '<td>'.$item->züge.'</td>';
+	echo '<td>'.$item->Bot.'</td>';
+	echo '</tr>';
+}
+echo '</table>';
+?>
+<button onClick="window.location.href='../index.html'">Zur&uuml;ck</button>
+
+</body>
+</html>

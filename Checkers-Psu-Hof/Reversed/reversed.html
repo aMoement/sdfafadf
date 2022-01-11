@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../css/ngCheckers.css">
+	<title>Checkers</title>
+</head>
+<body>
+<div id="checkersApp" ng-app="checkersApp" ng-controller="checkerCtrl">
+	<div id = "gameContainer">
+		<!-- Festlegen der Reihen -->
+		<div class = "row" ng-repeat = "row in board">
+			<!-- Setting the squares -->
+			<div class = "square" ng-style = "setSquares(square)" ng-repeat="square in row track by $index" ng-click="select(square)">
+				<!-- Setting the stones -->
+				<div class="circle" ng-style="setStones(square)"></div>
+			</div>
+		</div>
+	</div>
+	<?php
+echo "<form action='reversed.html' method='POST'>";
+	 echo "<div id = 'description'>";
+		 echo "<div> Player Turn : {{player}} </div>";
+		 echo "<div class='reds'  value='0'> Red Score : {{redScore}} </div>";
+		 echo "<input type='hidden' name='redScore' value='{{redScore}}'> </input>";
+		 echo "<div class='blacks' name= value='0'> Black Score : {{blackScore}} </div>";
+		 echo "<input type='hidden' name='blackScore' value='{{blackScore}}'> </input>";
+		
+		 echo "<div>";
+			 echo "<a href='../index.html' class='btn btn-info' role='button'>Home</a>";
+		echo "</div>";
+	echo "</div>";		
+echo "<div id = 'rankingList'>";
+			echo "<ol id =''></ol>";
+			echo "<ol id=''  name = 'zuege'>{{Score}}</ol>";
+		echo "</div>";
+
+		
+			echo "<input name='name' id='' type = 'textArea' placeholder = 'Name hier eingeben'>Gib deinen Namen am Ende des Spiels ein und mit ENTER best&auml;tigen.</input>";
+			
+		echo "</form>";
+	?>
+	<?php 
+	echo "<a href='leaderboard.html'>leaderboard</a>";
+	?>
+<?php
+    require_once('../js/mongodb.php');
+    $db = new MongoData;
+
+    $write = $db -> check([
+'name'=> $_POST['name'],
+'züge'=> $_POST['redScore'],
+'Bot' => $_POST['blackScore']
+]);
+if($write){
+header("Location:'leaderborad.html'");}
+if(! $write){
+header("Locaton:'../index.html'");}
+
+
+?>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="../js/ngCheckers.js"> </script>
+</body>
+</html>
+
